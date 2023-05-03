@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".HomeFragment"
+    android:id="@+id/linearLayout">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#80deea"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/nexon"
+            android:text="Home"
+            android:textColor="@android:color/background_light"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        android:textSize="25sp"
+        android:text="배너"
+         />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:fontFamily="@font/nexon"
+        android:text="ㅇㅇㅇ님, 코칭 받을 운동을 선택하세요"
+         />
+
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:rowCount="2">
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:background="@drawable/roundbutton"
+            android:layout_weight="1"
+            android:textColor="@android:color/background_light"
+            android:textSize="25sp"
+            android:fontFamily="@font/nexon"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="스쿼트" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:background="@drawable/roundbutton"
+            android:layout_weight="1"
+            android:textColor="@android:color/background_light"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="런지"
+            android:fontFamily="@font/nexon"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:background="@drawable/roundbtn2"
+            android:textColor="@android:color/background_light"
+            android:layout_marginRight="20dp"
+            android:textSize="25sp"
+            android:fontFamily="@font/nexon"
+            android:text="준비중.." />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:background="@drawable/roundbtn2"
+            android:textColor="@android:color/background_light"
+            android:layout_marginLeft="20dp"
+            android:textSize="25sp"
+            android:fontFamily="@font/nexon"
+            android:text="준비중.." />
+
+    </GridLayout>
+
+</LinearLayout>
