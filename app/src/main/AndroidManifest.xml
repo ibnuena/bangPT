@@ -17,6 +17,21 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".WiteViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WriteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CommuQuestionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CommuInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CommuFreeActivity"
+            android:exported="false" />
+        <activity
             android:name=".ExerciseResultActivity"
             android:exported="false" />
         <activity

@@ -1,10 +1,12 @@
 package com.example.bangpt;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,6 +59,33 @@ public class CommunityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_community, container, false);
+        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_community, container, false);
+
+        Button button1 = rootView.findViewById(R.id.button1);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CommuFreeActivity.class);
+                startActivity(intent);
+            }
+        });
+        Button button2 = rootView.findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CommuQuestionActivity.class);
+                startActivity(intent);
+            }
+        });
+        Button button3 = rootView.findViewById(R.id.button3);
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CommuInfoActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        return rootView;
     }
 }

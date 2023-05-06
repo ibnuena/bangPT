@@ -65,7 +65,6 @@ public class MypageFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_mypage, container, false);
 
-
         Button btn_write = rootView.findViewById(R.id.btn_write);
         btn_write.setOnClickListener(new View.OnClickListener() {
             @Override
