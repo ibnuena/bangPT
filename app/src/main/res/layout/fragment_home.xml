@@ -27,14 +27,7 @@
             android:textSize="30dp"
             android:textStyle="bold" />
     </LinearLayout>
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:orientation="horizontal"
-        android:textSize="25sp"
-        android:text="배너"
-         />
+
 
 
     <TextView
@@ -42,6 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25sp"
+        android:layout_marginTop="180dp"
         android:fontFamily="@font/nexon"
         android:text="ㅇㅇㅇ님, 코칭 받을 운동을 선택하세요"
          />
