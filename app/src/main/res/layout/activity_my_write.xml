@@ -27,45 +27,11 @@
     </LinearLayout>
 
 
-
-    <Button
-        android:id="@+id/button1"
+    <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/linebnt"
-        android:textSize="20dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:fontFamily="@font/nexon"
-        android:textStyle="bold"
-        android:textColor="#A0D9E2"
-        android:text="작성 글" />
-    <Button
-        android:id="@+id/btn_badge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/linebnt"
-        android:textSize="20dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:textStyle="bold"
-        android:fontFamily="@font/nexon"
-        android:textColor="#A0D9E2"
-        android:text="챌린지 배지" />
-    <Button
-        android:id="@+id/btn_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:background="@drawable/linebnt"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:fontFamily="@font/nexon"
-        android:textColor="#A0D9E2"
-        android:text="운동 분석 결과" />
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        />
 
 </LinearLayout>
