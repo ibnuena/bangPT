@@ -15,10 +15,6 @@ import me.relex.circleindicator.CircleIndicator3;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ViewPager2 mPager;
-    private FragmentStateAdapter pagerAdapter;
-    private int num_page = 3;
-    private CircleIndicator3 mIndicator;
     HomeFragment homeFragment;
     CalendarFragment calendarFragment;
     CommunityFragment communityFragment;
@@ -36,35 +32,6 @@ public class MainActivity extends AppCompatActivity {
         challengeFragment = new ChallengeFragment();
 
 
-//ViewPager2
-        mPager = findViewById(R.id.viewpager);
-        //Adapter
-        pagerAdapter = new MyAdapter(this, num_page);
-        mPager.setAdapter(pagerAdapter);
-        //Indicator
-        mIndicator = findViewById(R.id.indicator);
-        mIndicator.setViewPager(mPager);
-        mIndicator.createIndicators(num_page,0);
-        //ViewPager Setting
-        mPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        mPager.setCurrentItem(1002); //시작 지점
-        mPager.setOffscreenPageLimit(3); //최대 이미지 수
-
-        mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-                                                @Override
-                                                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                                                    super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                                                    if (positionOffsetPixels == 0) {
-                                                        mPager.setCurrentItem(position);
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onPageSelected(int position) {
-                                                    super.onPageSelected(position);
-                                                    mIndicator.animatePageSelected(position % num_page);
-                                                }
-                                            });
 
         getSupportFragmentManager().beginTransaction().replace(R.id.containers, homeFragment).commit();
 
