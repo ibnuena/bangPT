@@ -25,11 +25,16 @@
             android:textColor="@android:color/background_light"
             android:textSize="30dp"
             android:textStyle="bold" />
+
+
     </LinearLayout>
 
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calView"
+        app:mcv_selectionColor="#d2d2d2"
 
-
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

@@ -8,6 +8,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import me.relex.circleindicator.CircleIndicator2;
 import me.relex.circleindicator.CircleIndicator3;
@@ -16,6 +17,7 @@ public class HomeFragment extends Fragment {
     private ViewPager2 mPager;
     private CircleIndicator3 mIndicator;
     private int num_page = 3;
+    TextView name1;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -25,6 +27,10 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        //set name
+        name1 = view.findViewById(R.id.name1);
+
 
         // ViewPager2
         mPager = view.findViewById(R.id.viewpager);
@@ -58,5 +64,15 @@ public class HomeFragment extends Fragment {
         });
 
         return view;
+    }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // 인텐트에서 값을 받아옵니다.
+        String userID = getActivity().getIntent().getStringExtra("userID");
+
+        // TextView에 값을 표시합니다.
+        name1.setText(userID);
     }
 }

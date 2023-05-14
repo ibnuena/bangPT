@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -15,6 +16,8 @@ import me.relex.circleindicator.CircleIndicator3;
 
 public class MainActivity extends AppCompatActivity {
 
+    String userID;
+    String userPass;
     HomeFragment homeFragment;
     CalendarFragment calendarFragment;
     CommunityFragment communityFragment;
@@ -25,6 +28,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        userID = intent.getStringExtra("userID");
+        userPass = intent.getStringExtra("userPass");
+
         homeFragment = new HomeFragment();
         calendarFragment = new CalendarFragment();
         communityFragment = new CommunityFragment();
@@ -41,12 +49,19 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item){
 
                 switch(item.getItemId()){
-                    case R.id.home:
+                    case R.id.home: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, homeFragment).commit();
+
                         return true;
-                    case R.id.mypage:
+                    }
+                    case R.id.mypage: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, mypageFragment).commit();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userID", userID);
+                        bundle.putString("userPass", userPass);
+                        mypageFragment.setArguments(bundle);
                         return true;
+                    }
                     case R.id.calendar:
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, calendarFragment).commit();
                         return true;
@@ -56,13 +71,18 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.community:
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, communityFragment).commit();
                         return true;
-                    default :
+                    default :{
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, homeFragment).commit();
-                        //return true;
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putString("userID", userID);
+                        homeFragment.setArguments(bundle1);
+                       // return true;
+                    }
                 }
                 return false;
             }
 
         });
+
     }
 }

@@ -14,6 +14,14 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <!-- 달력에 사용하는 스타일 -->
+    <style name="CustomTextAppearance" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/mcv_text_date_light</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
     <style name="NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
