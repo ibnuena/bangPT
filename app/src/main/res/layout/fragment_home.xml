@@ -106,7 +106,7 @@
         android:rowCount="2">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_squat"
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:background="@drawable/roundbutton"

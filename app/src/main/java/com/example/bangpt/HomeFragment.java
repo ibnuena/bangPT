@@ -1,5 +1,6 @@
 package com.example.bangpt;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import me.relex.circleindicator.CircleIndicator2;
@@ -31,6 +33,14 @@ public class HomeFragment extends Fragment {
         //set name
         name1 = view.findViewById(R.id.name1);
 
+        Button btn_squat = view.findViewById(R.id.btn_squat);
+        btn_squat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), Exercise1Activity.class);
+                startActivity(intent);
+            }
+        });
 
         // ViewPager2
         mPager = view.findViewById(R.id.viewpager);
