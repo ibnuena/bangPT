@@ -28,6 +28,12 @@
                 android:textColor="@android:color/background_light"
                 android:textSize="30dp"
                 android:textStyle="bold" />
+            <TextView
+                android:id="@+id/text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text"
+                />
             <FrameLayout
 
                 android:id="@+id/containers2"
