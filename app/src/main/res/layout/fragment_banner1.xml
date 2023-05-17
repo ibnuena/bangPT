@@ -6,14 +6,13 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <TextView
-        android:text="광고배너"
+
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="400dp"
         android:layout_height="180dp"
-        android:textSize="50dp"
-        android:gravity="center"
-        android:textColor="#000000"
-        android:background="#FFCDD2"
+        android:background="@null"
+        android:src="@drawable/banner1"
         />
 
 </LinearLayout>

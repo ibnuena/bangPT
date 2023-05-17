@@ -23,28 +23,42 @@
             android:fontFamily="@font/nexon"
             android:text="Challenge"
             android:textColor="@android:color/background_light"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:textStyle="bold" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:text="이달의 챌린지" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/chall"
+         />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:text="이달의 챌린지 어쩌고" />
+        android:layout_height="133dp"
+        android:fontFamily="@font/nexon"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="이달의 챌린지 \n\n5월달 챌린지에 참여하고\n뱃지를 수집해보세요!" />
 
     <Button
         android:id="@+id/button6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_200"
+        android:background="#008299"
+        android:fontFamily="@font/nexon"
+        android:textSize="23sp"
+        android:textStyle="bold"
         android:layout_marginTop="40dp"
+        android:textColor="@android:color/background_light"
         android:text="챌린지 참여하기" />
 
 

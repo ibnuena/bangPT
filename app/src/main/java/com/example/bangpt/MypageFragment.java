@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +17,8 @@ import android.widget.Button;
  * create an instance of this fragment.
  */
 public class MypageFragment extends Fragment {
-
+    ViewGroup viewGroup;
+    TextView name;
 
     //private Button btn_badge;
     // TODO: Rename parameter arguments, choose names that match
@@ -65,12 +67,19 @@ public class MypageFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_mypage, container, false);
 
+        name = rootView.findViewById(R.id.name);
+        Bundle bundle = getArguments();
+        String userID = bundle.getString("userID");
+        String userPass = bundle.getString("userPass");
+        name.setText(userID);
 
         Button btnID = rootView.findViewById(R.id.btnID);
         btnID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), MyInfoActivity.class);
+                intent.putExtra("userID", userID);
+                intent.putExtra("userPass", userPass);
                 startActivity(intent);
             }
         });

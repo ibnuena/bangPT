@@ -28,37 +28,7 @@
                 android:textColor="@android:color/background_light"
                 android:textSize="30dp"
                 android:textStyle="bold" />
-            <TextView
-                android:id="@+id/text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                />
-            <FrameLayout
 
-                android:id="@+id/containers2"
-                android:layout_width="400dp"
-                android:layout_height="180dp">
-
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewpager"
-                    android:layout_gravity="center"
-                    android:clipToPadding="false"
-                    android:clipChildren="false"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:layout_marginBottom="10dp"/>
-
-                <me.relex.circleindicator.CircleIndicator3
-                    android:id="@+id/indicator"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_gravity="bottom"/>
-
-            </FrameLayout
-                >
         </LinearLayout>
     </FrameLayout>
 
