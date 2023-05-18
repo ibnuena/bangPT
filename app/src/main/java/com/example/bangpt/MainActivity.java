@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         challengeFragment = new ChallengeFragment();
 
 
-        textView = findViewById(R.id.text_view);
+        //textView = findViewById(R.id.text_view);
 
         new Thread(new Runnable() {
             @Override
