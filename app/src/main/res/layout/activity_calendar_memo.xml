@@ -70,7 +70,7 @@
             android:fontFamily="@font/nexon"
             android:background="@drawable/roundbutton"/>
         <EditText
-            android:id="@+id/todo"
+            android:id="@+id/write"
             android:inputType="textPersonName"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
@@ -82,11 +82,13 @@
     </LinearLayout>
     <Button
         android:id="@+id/reg_button"
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_width="380dp"
+        android:layout_marginBottom="10dp"
         android:layout_height="wrap_content"
         android:text="등록하기"
         android:fontFamily="@font/nexon"
         android:textColor="#FFFFFF"
         android:textSize="24dp"
-        android:background="#80deea"/>
+        android:background="@drawable/roundbutton"/>
 </LinearLayout>
