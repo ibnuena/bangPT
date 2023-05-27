@@ -109,7 +109,7 @@
         android:textStyle="bold"
         android:fontFamily="@font/nexon"
         android:textColor="#A0D9E2"
-        android:text="챌린지 배지" />
+        android:text="활동 배지" />
     <Button
         android:id="@+id/btn_result"
         android:layout_width="match_parent"
