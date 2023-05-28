@@ -72,7 +72,7 @@ public class Exercise1Activity extends AppCompatActivity implements SurfaceHolde
                             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
                             mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
                             mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
-                            mediaRecorder.setOrientationHint(90);
+                            mediaRecorder.setOrientationHint(270);
                             mediaRecorder.setOutputFile("/storage/emulated/0/Download/test.mp4");
                             mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
                             mediaRecorder.prepare();
@@ -94,7 +94,21 @@ public class Exercise1Activity extends AppCompatActivity implements SurfaceHolde
     PermissionListener permission = new PermissionListener() {
         @Override
         public void onPermissionGranted() { //권한을 허용받았을 때 camera와 surfaceView에 대한 설정을 해준다.
-            camera = Camera.open();
+
+            int numberOfCameras = Camera.getNumberOfCameras();
+            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+            for (int i = 0; i < numberOfCameras; i++) {
+                Camera.getCameraInfo(i, cameraInfo);
+
+                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                    camera = Camera.open(i); // 전면 카메라를 엽니다
+                    break;
+                }
+            }
+            if (camera == null) {
+                camera = Camera.open(); // 전면 카메라를 사용할 수 없을 경우 기본 카메라(후면 카메라)를 엽니다
+            }
+            //camera = Camera.open();
             camera.setDisplayOrientation(90);
             surfaceView = (SurfaceView)findViewById(R.id.surfaceView);
             surfaceHolder = surfaceView.getHolder();
