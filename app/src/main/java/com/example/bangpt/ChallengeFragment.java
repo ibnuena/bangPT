@@ -71,6 +71,9 @@ public class ChallengeFragment extends Fragment {
             public void onClick(View v) {
                 // 토스트 메시지를 띄웁니다.
                 Toast.makeText(getActivity(), "챌린지 참여가 완료되었습니다!", Toast.LENGTH_SHORT).show();
+
+
+
             }
         });
 

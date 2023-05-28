@@ -369,7 +369,7 @@ public class JoinActivity extends AppCompatActivity {
 
             // 서버로 전송할 요청 생성
             Request request = new Request.Builder()
-                    .url("http://52.78.198.125:5000/join/")
+                    .url("http://3.21.247.81:5000/join/")
                     .post(requestBody)
                     .build();
 
