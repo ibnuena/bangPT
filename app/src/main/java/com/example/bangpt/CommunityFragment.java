@@ -61,11 +61,15 @@ public class CommunityFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_community, container, false);
 
+        Bundle bundle = getArguments();
+        String userID = bundle.getString("userID");
+
         Button button1 = rootView.findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CommuFreeActivity.class);
+                intent.putExtra("userID", userID);
                 startActivity(intent);
             }
         });

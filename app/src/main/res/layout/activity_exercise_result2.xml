@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".HomeFragment">
+
+    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,33 +20,11 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/nexon"
-            android:text="정보게시판"
+            android:text="Exercise Result"
             android:textColor="@android:color/background_light"
             android:textSize="30dp"
             android:textStyle="bold" />
     </LinearLayout>
-    <!-- TODO: Update blank fragment layout -->
-
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/roundbutton2"
-        android:textSize="18dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="240dp"
-        android:textStyle="bold"
-        android:fontFamily="@font/nexon"
-        android:textColor="@android:color/background_light"
-        android:text="글 작성하기" />
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        />
 
 
 </LinearLayout>
