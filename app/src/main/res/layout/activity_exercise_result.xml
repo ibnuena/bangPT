@@ -26,7 +26,6 @@
             android:textStyle="bold" />
     </LinearLayout>
     <ListView
-        android:layout_marginTop="15dp"
         android:layout_weight="13"
         android:id="@+id/my_list2"
         android:layout_width="match_parent"
