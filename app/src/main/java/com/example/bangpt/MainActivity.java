@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
         mypageFragment = new MypageFragment();
         challengeFragment = new ChallengeFragment();
 
-
-        //textView = findViewById(R.id.text_view);
+/*
+        textView = findViewById(R.id.text_view);
 
         new Thread(new Runnable() {
             @Override
@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).start();
+ */
 
         getSupportFragmentManager().beginTransaction().replace(R.id.containers, homeFragment).commit();
 
