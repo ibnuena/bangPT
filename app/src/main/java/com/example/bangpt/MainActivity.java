@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
         mypageFragment = new MypageFragment();
         challengeFragment = new ChallengeFragment();
 
-
-        //textView = findViewById(R.id.text_view);
+/*
+        textView = findViewById(R.id.text_view);
 
         new Thread(new Runnable() {
             @Override
@@ -60,15 +60,8 @@ public class MainActivity extends AppCompatActivity {
                     URL url = new URL("http://10.0.2.2:5000/");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
-        /*
-                    try {
-                        int forTest = conn.getResponseCode(); // 응답 상태 코드 저장
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-        */
 
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     String line;
                     StringBuilder sb = new StringBuilder();
 
@@ -91,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).start();
+ */
 
         getSupportFragmentManager().beginTransaction().replace(R.id.containers, homeFragment).commit();
 
