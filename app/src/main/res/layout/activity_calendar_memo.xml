@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".HomeFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,41 +24,12 @@
             android:textSize="30dp"
             android:textStyle="bold" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="1">
-
-    <TextView
-        android:layout_marginTop="15dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:text=" 운동 일지 목록 "
-        android:fontFamily="@font/nexon"
-        android:background="@drawable/roundbutton"/>
-
-    <ListView
-        android:layout_marginTop="15dp"
-        android:layout_weight="13"
-        android:id="@+id/my_list2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#ffffff"
-        android:dividerHeight="0dp"
-        android:fontFamily="@font/nexon"/>
-    </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="250dp"
         android:orientation="vertical"
-        android:layout_weight="1">
+        >
         <TextView
             android:layout_marginTop="15dp"
             android:layout_gravity="center"
@@ -73,22 +45,53 @@
             android:id="@+id/write"
             android:inputType="textPersonName"
             android:layout_width="280dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:hint="작성해주세요"
             android:fontFamily="@font/nexon"
             android:layout_gravity="center"
             android:padding="10dp"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="50dp"/>
+        <Button
+            android:id="@+id/reg_button"
+            android:layout_gravity="center"
+            android:layout_width="330dp"
+            android:layout_marginTop="40dp"
+            android:layout_height="wrap_content"
+            android:text="등록하기"
+            android:fontFamily="@font/nexon"
+            android:textColor="#FFFFFF"
+            android:textSize="24dp"
+            android:background="@drawable/roundbutton"/>
     </LinearLayout>
-    <Button
-        android:id="@+id/reg_button"
-        android:layout_gravity="center"
-        android:layout_width="380dp"
-        android:layout_marginBottom="10dp"
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="등록하기"
-        android:fontFamily="@font/nexon"
-        android:textColor="#FFFFFF"
-        android:textSize="24dp"
-        android:background="@drawable/roundbutton"/>
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text=" 운동 일지 목록 "
+            android:fontFamily="@font/nexon"
+            android:background="@drawable/roundbutton"/>
+
+        <ListView
+            android:layout_marginTop="15dp"
+            android:layout_weight="13"
+            android:id="@+id/my_list2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#ffffff"
+            android:dividerHeight="0dp"
+            android:fontFamily="@font/nexon"/>
+    </LinearLayout>
+
 </LinearLayout>

@@ -26,5 +26,54 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+            <VideoView
+                android:id="@+id/videoView1"
+                android:layout_width="180dp"
+                android:layout_height="240dp"
+                android:layout_margin="10dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/nexon"
+                android:text="Best Rep"
+                android:textSize="23dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+            <VideoView
+                android:id="@+id/videoView2"
+                android:layout_width="180dp"
+                android:layout_height="240dp"
+                android:layout_margin="10dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/nexon"
+                android:text="Worst Rep"
+                android:textSize="23dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
 
 </LinearLayout>
