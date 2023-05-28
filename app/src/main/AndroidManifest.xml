@@ -22,9 +22,6 @@
             android:name=".ExerciseResult2Activity"
             android:exported="false" />
         <activity
-            android:name=".ExserciseActivity"
-            android:exported="false" />
-        <activity
             android:name=".CalendarMemoActivity"
             android:exported="false" />
         <activity

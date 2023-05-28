@@ -23,5 +23,16 @@ public class Join2Activity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        Button galleryButton = findViewById(R.id.btn_upload);
+        galleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+            }
+        });
+    }
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivity(intent);
     }
 }
