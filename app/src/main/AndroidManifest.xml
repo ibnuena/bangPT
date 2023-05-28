@@ -15,12 +15,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31">
-        <activity
-            android:name=".ExerciseResult2Activity"
-            android:exported="false" />
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:targetApi="31"
+        android:enableOnBackInvokedCallback="true"
+        android:networkSecurityConfig="@xml/network_security_config">
         <activity
             android:name=".CalendarMemoActivity"
             android:exported="false" />
@@ -28,22 +27,37 @@
             android:name=".MyInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".WiteViewActivity"
+            android:name=".Commu.FreeWriteActivity"
             android:exported="false" />
         <activity
-            android:name=".WriteActivity"
+            android:name=".Commu.InfoWriteActivity"
             android:exported="false" />
         <activity
-            android:name=".CommuQuestionActivity"
+            android:name=".Commu.QuestionWriteActivity"
             android:exported="false" />
         <activity
-            android:name=".CommuInfoActivity"
+            android:name=".Commu.FreeWriteViewActivity"
             android:exported="false" />
         <activity
-            android:name=".CommuFreeActivity"
+            android:name=".Commu.InfoWriteViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Commu.QuestionWriteViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Commu.CommuQuestionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Commu.CommuInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Commu.CommuFreeActivity"
             android:exported="false" />
         <activity
             android:name=".ExerciseResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ExerciseResult2Activity"
             android:exported="false" />
         <activity
             android:name=".Exercise1Activity"
