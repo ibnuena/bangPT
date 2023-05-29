@@ -118,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.challenge:
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, challengeFragment).commit();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userID", userID);
+                        challengeFragment.setArguments(bundle);
                         return true;
                     case R.id.community:{
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, communityFragment).commit();

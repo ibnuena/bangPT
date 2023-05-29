@@ -1,5 +1,8 @@
 package com.example.bangpt;
 
+
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+import com.example.bangpt.Request.ChallengeRequest;
+import com.example.bangpt.Request.JoinRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,10 +81,36 @@ public class ChallengeFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 토스트 메시지를 띄웁니다.
-                Toast.makeText(getActivity(), "챌린지 참여가 완료되었습니다!", Toast.LENGTH_SHORT).show();
+                //EditText에 현재 입력되어있는 값을 가져옴
+                Bundle bundle = getArguments();
+                String participantId = bundle.getString("userID");
 
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try { // 참가자 등록에 성공
+                            JSONObject jsonObject = new JSONObject(response);
+                            boolean success = jsonObject.getBoolean("success");
+                            if(success){
+                                Context context = getContext();
+                                Toast.makeText(context, "챌린지 참여가 완료되었습니다!", Toast.LENGTH_SHORT).show();
+                            }
+                            else{ // 회원가입에 실패
+                                Context context = getContext();
+                                Toast.makeText(context, "챌린지 참여에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
+                    }
+                };
+
+                ChallengeRequest challengeRequest = new ChallengeRequest(participantId, responseListener);
+                Context context = getContext();
+                RequestQueue queue = Volley.newRequestQueue(context);
+                queue.add(challengeRequest);
 
             }
         });
