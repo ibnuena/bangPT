@@ -2,12 +2,24 @@ package com.example.bangpt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+import com.example.bangpt.Request.CalendarMemoRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -27,6 +39,7 @@ public class CalendarMemoActivity extends AppCompatActivity {
         int year = getIntent().getIntExtra("year", 0);
         int month = getIntent().getIntExtra("month", 0);
         int day = getIntent().getIntExtra("day", 0);
+        String userID = getIntent().getStringExtra("userID");
 
         itemList = new ArrayList<>();
 
@@ -56,6 +69,33 @@ public class CalendarMemoActivity extends AppCompatActivity {
 
                 // EditText의 내용을 초기화합니다.
                 editText.setText("");
+
+                //
+                //DB에 운동일지를 추가합니다.
+                Response.Listener<String> responseListener=new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse=new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+                            if(success){
+                                Log.d("CalendarMemoActivity", "메모 추가 성공");
+                            }
+                            else{
+                                Log.d("CalendarMemoActivity", "메모 추가 실패");
+                                return;
+                            }
+                        } catch (JSONException e) {
+                            Log.d("CalendarMemoActivity", "메모 추가 위한 연동 실패");
+                            e.printStackTrace();
+                        }
+
+                    }
+                };
+
+                CalendarMemoRequest calendarMemoRequest = new CalendarMemoRequest(userID, year, month, day, inputText, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(CalendarMemoActivity.this);
+                queue.add(calendarMemoRequest);
             }
         });
 

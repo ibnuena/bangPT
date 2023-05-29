@@ -115,12 +115,15 @@ public class MainActivity extends AppCompatActivity {
                     }
                     case R.id.calendar:
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, calendarFragment).commit();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userID", userID);
+                        calendarFragment.setArguments(bundle);
                         return true;
                     case R.id.challenge:
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, challengeFragment).commit();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("userID", userID);
-                        challengeFragment.setArguments(bundle);
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putString("userID", userID);
+                        challengeFragment.setArguments(bundle1);
                         return true;
                     case R.id.community:{
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, communityFragment).commit();
@@ -131,9 +134,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                     default :{
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, homeFragment).commit();
-                        Bundle bundle1 = new Bundle();
-                        bundle1.putString("userID", userID);
-                        homeFragment.setArguments(bundle1);
+                        Bundle bundle2 = new Bundle();
+                        bundle2.putString("userID", userID);
+                        homeFragment.setArguments(bundle2);
                         // return true;
                     }
                 }

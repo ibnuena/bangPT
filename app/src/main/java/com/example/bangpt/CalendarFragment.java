@@ -100,12 +100,15 @@ public class CalendarFragment extends Fragment {
                 int year = date.getYear();
                 int month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더해줍니다.
                 int day = date.getDay();
+                Bundle bundle = getArguments();
+                String userID = bundle.getString("userID");
 
                 // 클릭한 날짜를 액티비티로 전달합니다.
                 Intent intent = new Intent(getActivity(), CalendarMemoActivity.class);
                 intent.putExtra("year", year);
                 intent.putExtra("month", month);
                 intent.putExtra("day", day);
+                intent.putExtra("userID", userID);
                 startActivity(intent);
             }
         });
