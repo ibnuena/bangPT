@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.bangpt.Commu.CommuFreeActivity;
+import com.example.bangpt.Commu.CommuInfoActivity;
+import com.example.bangpt.Commu.CommuQuestionActivity;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CommunityFragment#newInstance} factory method to
@@ -23,9 +27,13 @@ public class CommunityFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private static final String ARG_USER_ID = "userID";
+
+    private String userId;
 
     public CommunityFragment() {
         // Required empty public constructor
+
     }
 
     /**
@@ -37,11 +45,12 @@ public class CommunityFragment extends Fragment {
      * @return A new instance of fragment CommunityFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CommunityFragment newInstance(String param1, String param2) {
+    public static CommunityFragment newInstance(String param1, String param2, String userId) {
         CommunityFragment fragment = new CommunityFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_USER_ID, userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,40 +61,41 @@ public class CommunityFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            userId = getArguments().getString(ARG_USER_ID);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_community, container, false);
-
-        Bundle bundle = getArguments();
-        String userID = bundle.getString("userID");
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_community, container, false);
 
         Button button1 = rootView.findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CommuFreeActivity.class);
-                intent.putExtra("userID", userID);
+                intent.putExtra("userID", userId);
                 startActivity(intent);
             }
         });
+
         Button button2 = rootView.findViewById(R.id.button2);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CommuQuestionActivity.class);
+                intent.putExtra("userID", userId);
                 startActivity(intent);
             }
         });
+
         Button button3 = rootView.findViewById(R.id.button3);
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CommuInfoActivity.class);
+                intent.putExtra("userID", userId);
                 startActivity(intent);
             }
         });

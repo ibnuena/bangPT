@@ -57,7 +57,7 @@
 
 
             <Button
-                android:id="@+id/btnID"
+                android:id="@+id/btn_upload"
                 android:layout_width="100dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
