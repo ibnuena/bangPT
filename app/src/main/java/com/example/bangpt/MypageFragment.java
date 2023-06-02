@@ -1,6 +1,8 @@
 package com.example.bangpt;
 
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +31,9 @@ import android.widget.TextView;
  */
 public class MypageFragment extends Fragment {
     ViewGroup viewGroup;
-    TextView name;
+    TextView name, name2;
+    String userid;
+
 
     //private Button btn_badge;
     // TODO: Rename parameter arguments, choose names that match
@@ -59,6 +74,7 @@ public class MypageFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -68,10 +84,13 @@ public class MypageFragment extends Fragment {
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_mypage, container, false);
 
         name = rootView.findViewById(R.id.name);
+        name2 = rootView.findViewById(R.id.name2);
+
         Bundle bundle = getArguments();
         String userID = bundle.getString("userID");
         String userPass = bundle.getString("userPass");
         name.setText(userID);
+
 
         Button btnID = rootView.findViewById(R.id.btnID);
         btnID.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +128,38 @@ public class MypageFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        myinfo();
         return rootView;
+    }
+    private void myinfo() {
+        SharedPreferences settings = getActivity().getSharedPreferences("Login", 0);
+        userid = settings.getString("userID", ""); // Use the global userid variable
+
+        String serverUrl = "http://10.0.2.2:821/user/" + userid;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, serverUrl, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String user_id = response.getString("user_id");
+                            String trainer = response.getString("trainer");
+
+                            // Update TextViews with retrieved information
+                            name2.setText(trainer);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        queue.add(jsonObjectRequest);
     }
 }
