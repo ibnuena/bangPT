@@ -45,7 +45,7 @@
             android:text="나의 배지 :"
             android:padding="3dp" />
         <TextView
-            android:id="@+id/name2"
+            android:id="@+id/count"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -82,11 +82,11 @@
             android:layout_marginTop="10dp"
             >
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageView1"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:background="@null"
-                android:src="@drawable/badge_hi"
+                android:src="@drawable/badge_secret"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -95,7 +95,7 @@
                 android:layout_gravity="center"
                 >
                 <TextView
-                    android:id="@+id/name1"
+                    android:id="@+id/badge1_name"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_margin="8dp"
@@ -105,13 +105,13 @@
                     android:text="만나서 반가워"
                     android:padding="3dp" />
                 <TextView
-                    android:id="@+id/name21"
+                    android:id="@+id/badge1_desc"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_margin="8dp"
                     android:fontFamily="@font/nexon"
                     android:textSize="20dp"
-                    android:text="일주일 출석 완료!"
+                    android:text="일주일 출석 완료"
                     android:padding="3dp" />
             </LinearLayout>
 
@@ -123,11 +123,11 @@
             android:layout_marginTop="10dp"
             >
             <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/imageView2"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:background="@null"
-                android:src="@drawable/badge_often"
+                android:src="@drawable/badge_secret"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -136,7 +136,7 @@
                 android:layout_gravity="center"
                 >
                 <TextView
-                    android:id="@+id/name122"
+                    android:id="@+id/badge2_name"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_margin="8dp"
@@ -146,7 +146,7 @@
                     android:text="자주 보네요"
                     android:padding="3dp" />
                 <TextView
-                    android:id="@+id/name212"
+                    android:id="@+id/badge2_desc"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_margin="8dp"
@@ -168,7 +168,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:background="@null"
-                android:src="@drawable/badge_start"
+                android:src="@drawable/badge_secret"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -177,7 +177,7 @@
                 android:layout_gravity="center"
                 >
                 <TextView
-                    android:id="@+id/name15"
+                    android:id="@+id/badge3_name"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_margin="8dp"
@@ -187,13 +187,13 @@
                     android:text="시작이 반이다"
                     android:padding="3dp" />
                 <TextView
-                    android:id="@+id/name215"
+                    android:id="@+id/badge3_desc"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_margin="8dp"
                     android:fontFamily="@font/nexon"
                     android:textSize="20dp"
-                    android:text="처음으로 코치 받기 완료"
+                    android:text="처음으로 코치 받기 완료 !"
                     android:padding="3dp" />
             </LinearLayout>
 
@@ -205,12 +205,21 @@
             android:layout_marginTop="10dp"
             >
             <ImageView
-                android:id="@+id/imageView6"
+                android:id="@+id/imageView4"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:background="@null"
                 android:src="@drawable/badge_secret"
                 />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/badge_secret" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -218,7 +227,7 @@
                 android:layout_gravity="center"
                 >
                 <TextView
-                    android:id="@+id/name17"
+                    android:id="@+id/badge4_name"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_margin="8dp"
@@ -228,7 +237,7 @@
                     android:text="이제 슬슬 감 잡는 초심자"
                     android:padding="3dp" />
                 <TextView
-                    android:id="@+id/name218"
+                    android:id="@+id/badge4_desc"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_margin="8dp"
@@ -246,7 +255,7 @@
             android:layout_marginTop="10dp"
             >
             <ImageView
-                android:id="@+id/imageView9"
+                android:id="@+id/imageView5"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:background="@null"
@@ -259,7 +268,7 @@
                 android:layout_gravity="center"
                 >
                 <TextView
-                    android:id="@+id/name112"
+                    android:id="@+id/badge5_name"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_margin="8dp"
@@ -269,7 +278,7 @@
                     android:text="완벽한 자세를 향해"
                     android:padding="3dp" />
                 <TextView
-                    android:id="@+id/name217"
+                    android:id="@+id/badge5_desc"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_margin="8dp"
