@@ -1,5 +1,6 @@
 package com.example.bangpt;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -11,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
-import com.example.bangpt.Request.CalendarMemoRequest;
+import com.example.bangpt.Request.GetDiaryRequest;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
@@ -29,12 +30,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,6 +53,8 @@ public class CalendarFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ArrayList<String> itemList;
 
     public CalendarFragment() {
         // Required empty public constructor
@@ -82,7 +85,6 @@ public class CalendarFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -112,15 +114,47 @@ public class CalendarFragment extends Fragment {
                 Bundle bundle = getArguments();
                 String userID = bundle.getString("userID");
 
+                /*
+                itemList = new ArrayList<>();
+
+                //itemList에 DB에 저장된 값 저장하기
+                Response.Listener<String> responseListener=new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            String jsonString = jsonArray.toString();
+
+                            for(int i=0 ; i < jsonArray.length() ; i++){
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                String memo = jsonObject.optString("diary_memo");
+                                itemList.add(memo);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+
+                String Date = String.format("%04d", year) + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
+                String URL = GetDiaryRequest.GetURL(userID, Date);
+                GetDiaryRequest getDiaryRequest=new GetDiaryRequest(userID, URL,responseListener);
+                Context context = getContext();
+                RequestQueue queue= Volley.newRequestQueue(context);
+                queue.add(getDiaryRequest); */
+
                 // 클릭한 날짜를 액티비티로 전달합니다.
                 Intent intent = new Intent(getActivity(), CalendarMemoActivity.class);
                 intent.putExtra("year", year);
                 intent.putExtra("month", month);
                 intent.putExtra("day", day);
                 intent.putExtra("userID", userID);
+                //intent.putStringArrayListExtra("itemList", itemList);
                 startActivity(intent);
             }
         });
+
         return view;
     }
     public class SundayDecorator implements DayViewDecorator {
@@ -179,7 +213,7 @@ public class CalendarFragment extends Fragment {
         public void decorate(DayViewFacade view) {
             view.addSpan(new StyleSpan(Typeface.BOLD));
             view.addSpan(new RelativeSizeSpan(1.4f));
-            view.addSpan(new ForegroundColorSpan(Color.parseColor("#FF03DAC5")));
+            view.addSpan(new ForegroundColorSpan(Color.GREEN));
         }
 
         public void setDate(Date date) {

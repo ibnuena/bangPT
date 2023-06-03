@@ -115,6 +115,7 @@ public class ChallengeFragment extends Fragment {
             }
         });
 
+
         return view;
     }
 }
