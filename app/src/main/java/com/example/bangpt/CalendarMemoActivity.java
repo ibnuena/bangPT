@@ -1,5 +1,6 @@
 package com.example.bangpt;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -12,12 +13,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.bangpt.Request.CalendarMemoRequest;
+import com.example.bangpt.Request.GetDiaryRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +36,7 @@ public class CalendarMemoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_memo);
 
@@ -42,6 +47,8 @@ public class CalendarMemoActivity extends AppCompatActivity {
         String userID = getIntent().getStringExtra("userID");
 
         itemList = new ArrayList<>();
+        itemList.add("itemList 초기화 위함.");
+        itemList.remove("itemList 초기화 위함.");
 
         // XML에서 ListView, EditText, Button을 찾아 연결합니다.
         listView = findViewById(R.id.my_list2);
@@ -54,6 +61,35 @@ public class CalendarMemoActivity extends AppCompatActivity {
         // ListView에 어댑터를 설정합니다.
         listView.setAdapter(adapter);
 
+        //itemList에 DB에 저장된 값 저장하기
+        Response.Listener<String> responseListener=new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    String jsonString = jsonArray.toString();
+
+                    for(int i=0 ; i < jsonArray.length() ; i++){
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                        String memo = jsonObject.optString("diary_memo");
+                        itemList.add(memo);
+
+                        adapter.notifyDataSetChanged();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        String date = String.format("%04d", year) + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
+        String URL = GetDiaryRequest.GetURL(userID, date);
+        GetDiaryRequest getDiaryRequest=new GetDiaryRequest(userID, URL,responseListener);
+        RequestQueue queue= Volley.newRequestQueue(CalendarMemoActivity.this);
+        queue.add(getDiaryRequest);
+
         // 등록 버튼 클릭 시 이벤트 리스너를 설정합니다.
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,40 +98,41 @@ public class CalendarMemoActivity extends AppCompatActivity {
                 String inputText = editText.getText().toString();
 
                 // 가져온 텍스트를 itemList에 추가합니다.
-                itemList.add(inputText);
+                if(inputText.equals("") == false) {
+                    itemList.add(inputText);
 
-                // 어댑터에 변경된 데이터를 알립니다.
-                adapter.notifyDataSetChanged();
+                    // 어댑터에 변경된 데이터를 알립니다.
+                    adapter.notifyDataSetChanged();
 
-                // EditText의 내용을 초기화합니다.
-                editText.setText("");
+                    // EditText의 내용을 초기화합니다.
+                    editText.setText("");
 
-                //
-                //DB에 운동일지를 추가합니다.
-                Response.Listener<String> responseListener=new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse=new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-                            if(success){
-                                Log.d("CalendarMemoActivity", "메모 추가 성공");
+                    //DB에 운동일지를 추가합니다.
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonResponse = new JSONObject(response);
+                                boolean success = jsonResponse.getBoolean("success");
+                                if (success) {
+                                    Log.d("CalendarMemoActivity", "메모 추가 성공");
+                                } else {
+                                    Log.d("CalendarMemoActivity", "메모 추가 실패");
+                                    return;
+                                }
+                            } catch (JSONException e) {
+                                Log.d("CalendarMemoActivity", "메모 추가 위한 연동 실패");
+                                e.printStackTrace();
                             }
-                            else{
-                                Log.d("CalendarMemoActivity", "메모 추가 실패");
-                                return;
-                            }
-                        } catch (JSONException e) {
-                            Log.d("CalendarMemoActivity", "메모 추가 위한 연동 실패");
-                            e.printStackTrace();
+
                         }
+                    };
 
-                    }
-                };
+                    CalendarMemoRequest calendarMemoRequest = new CalendarMemoRequest(userID, year, month, day, inputText, responseListener);
+                    RequestQueue queue = Volley.newRequestQueue(CalendarMemoActivity.this);
+                    queue.add(calendarMemoRequest);
+                }
 
-                CalendarMemoRequest calendarMemoRequest = new CalendarMemoRequest(userID, year, month, day, inputText, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(CalendarMemoActivity.this);
-                queue.add(calendarMemoRequest);
             }
         });
 
