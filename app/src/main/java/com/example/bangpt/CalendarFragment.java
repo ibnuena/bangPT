@@ -8,6 +8,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+import com.example.bangpt.Request.CalendarMemoRequest;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
@@ -24,8 +28,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -112,7 +121,6 @@ public class CalendarFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
         return view;
     }
     public class SundayDecorator implements DayViewDecorator {
@@ -171,7 +179,7 @@ public class CalendarFragment extends Fragment {
         public void decorate(DayViewFacade view) {
             view.addSpan(new StyleSpan(Typeface.BOLD));
             view.addSpan(new RelativeSizeSpan(1.4f));
-            view.addSpan(new ForegroundColorSpan(Color.GREEN));
+            view.addSpan(new ForegroundColorSpan(Color.parseColor("#FF03DAC5")));
         }
 
         public void setDate(Date date) {
