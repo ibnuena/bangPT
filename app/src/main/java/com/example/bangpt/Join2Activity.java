@@ -39,7 +39,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
-import retrofit2.http.Multipart;
 
 public class Join2Activity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_PICK = 1;
