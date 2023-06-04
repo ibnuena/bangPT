@@ -1,4 +1,4 @@
-package com.example.prac04;
+package com.example.bangpt;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,13 +15,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +26,7 @@ public class UploadStatusActivity extends AppCompatActivity {
     private TextView statusTextView;
     private Button uploadStatusButton;
 
-    private String uploadUrl = "http://172.20.10.8:8000/model"; // 모델 엔드포인트 URL
+    private String uploadUrl = "http://172.20.10.8:821/model/model"; // 모델 엔드포인트 URL
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

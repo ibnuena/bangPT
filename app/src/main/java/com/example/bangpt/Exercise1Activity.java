@@ -1,4 +1,4 @@
-package com.example.prac04;
+package com.example.bangpt;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.bangpt.Request.VolleyMultipartRequest2;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,16 +33,16 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class Exercise1Activity extends AppCompatActivity {
     private static final int REQUEST_VIDEO_CAPTURE = 1;
-    private static final String UPLOAD_URL = "http://172.20.10.8:8000/upload";
+    private static final String UPLOAD_URL = "http://172.20.10.8:821/upload/upload";
 
     private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_exercise1);
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -88,8 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(NetworkResponse response) {
                         Log.d("Upload", "Video uploaded successfully");
 
-                        // 업로드 완료 후 UploadStatusActivity로 이동합니다.
-                        Intent intent = new Intent(MainActivity.this, UploadStatusActivity.class);
+                        Intent intent = new Intent(Exercise1Activity.this, UploadStatusActivity.class);
                         intent.putExtra("status_message", "동영상 업로드 완료");
                         startActivity(intent);
                     }

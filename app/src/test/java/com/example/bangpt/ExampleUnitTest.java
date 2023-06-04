@@ -1,4 +1,4 @@
-package com.example.prac04;
+package com.example.bangpt;
 
 import org.junit.Test;
 
