@@ -1,5 +1,6 @@
 package com.example.bangpt;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -30,6 +31,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +40,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -48,6 +51,7 @@ import java.util.List;
  */
 public class CalendarFragment extends Fragment {
     private MaterialCalendarView mCalendarView;
+
     private ArrayList<String> itemList; //운동한 날짜들 저장
 
 
@@ -129,6 +133,60 @@ public class CalendarFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        /**/
+        CalendarDay today = CalendarDay.today();
+
+        int year = today.getYear();
+        int month = today.getMonth() + 1; // 월은 0부터 시작하므로 1을 더해줍니다.
+        Bundle bundle = getArguments();
+        String userID = bundle.getString("userID");
+        itemList.clear();
+
+        Response.Listener<String> responseListener=new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+
+                    for(int i=0 ; i < jsonArray.length() ; i++){
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                        String date = jsonObject.optString("diary_date");
+                        itemList.add(date);
+                    }
+
+                    // itemList에 저장된 날짜들을 이벤트로 표시하는 EventDecorator 생성
+                    List<CalendarDay> eventDates = new ArrayList<>();
+
+                    for (int i = 0; i < itemList.size(); i++) {
+
+                        String item = itemList.get(i);
+                        String[] dateParts = item.split("-");
+                        int itemYear = Integer.parseInt(dateParts[0]);
+                        int itemMonth = Integer.parseInt(dateParts[1]);
+                        int itemDay = Integer.parseInt(dateParts[2]);
+                        eventDates.add(CalendarDay.from(itemYear, itemMonth-1, itemDay));
+                    }
+
+
+// 새로운 이벤트 데코레이터를 추가하여 반영
+                    EventDecorator eventDecorator = new EventDecorator(Color.RED, eventDates);
+                    mCalendarView.addDecorator(eventDecorator);
+                    //
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        String URL = GetDatesRequest.GetURL(userID, Integer.toString(year), Integer.toString(month));
+        GetDatesRequest getDatesRequest=new GetDatesRequest(userID, URL,responseListener);
+        Context context = getContext();
+        RequestQueue queue= Volley.newRequestQueue(context);
+        queue.add(getDatesRequest);
+        /**/
+
         mCalendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
             @Override
             public void onMonthChanged(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date) {
@@ -136,23 +194,19 @@ public class CalendarFragment extends Fragment {
                 int month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더해줍니다.
                 Bundle bundle = getArguments();
                 String userID = bundle.getString("userID");
-                Log.d("CalendarFragment", "itemList: " + "");
                 itemList.clear();
 
                 Response.Listener<String> responseListener=new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-
                             JSONArray jsonArray = new JSONArray(response);
-                            //String jsonString = jsonArray.toString();
 
                             for(int i=0 ; i < jsonArray.length() ; i++){
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                                 String date = jsonObject.optString("diary_date");
                                 itemList.add(date);
-
                             }
 
                             // itemList에 저장된 날짜들을 이벤트로 표시하는 EventDecorator 생성
@@ -163,12 +217,14 @@ public class CalendarFragment extends Fragment {
                                 String item = itemList.get(i);
                                 String[] dateParts = item.split("-");
                                 int itemYear = Integer.parseInt(dateParts[0]);
-
                                 int itemMonth = Integer.parseInt(dateParts[1]);
                                 int itemDay = Integer.parseInt(dateParts[2]);
                                 eventDates.add(CalendarDay.from(itemYear, itemMonth-1, itemDay));
                             }
+// 기존의 이벤트 데코레이터들을 모두 제거
+                            mCalendarView.removeDecorators();
 
+// 새로운 이벤트 데코레이터를 추가하여 반영
                             EventDecorator eventDecorator = new EventDecorator(Color.RED, eventDates);
                             mCalendarView.addDecorator(eventDecorator);
                             //
@@ -188,8 +244,13 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+        Log.d("TAG", "1"); // 디버그 메시지 출력
+
+
         return view;
     }
+
+
 
     public class SundayDecorator implements DayViewDecorator {
 
