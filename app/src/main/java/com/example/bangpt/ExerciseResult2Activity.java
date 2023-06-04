@@ -50,8 +50,7 @@ public class ExerciseResult2Activity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("Login", 0);
         userid = settings.getString("userID", "");
 
-        String serverUrl = "http://10.0.2.2:821/exercise_result/" + userid
-                ;
+        String serverUrl = "http://10.0.2.2:821/exercise_result/" + userid;
 
         JSONObject params = new JSONObject();
         try {
