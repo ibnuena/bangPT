@@ -18,8 +18,6 @@ public class GetDiaryRequest extends StringRequest {
         return URL;
     }
 
-    //서버 url 설정
-    //final static  private String URL="http://10.0.2.2:821/diary/" + diaryID + "/" + diaryDate;
     private Map<String,String> map;
 
     public GetDiaryRequest(String diaryID, String URL, Response.Listener<String>listener){
