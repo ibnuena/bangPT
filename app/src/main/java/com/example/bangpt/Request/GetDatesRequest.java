@@ -5,22 +5,24 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GetDiaryRequest extends StringRequest {
-    static private String diaryID, diaryDate;
-    static public String GetURL(String ID, String Date){
+public class GetDatesRequest extends StringRequest {
+    static private String diaryID, diaryYear, diaryMonth;
+    static public String GetURL(String ID, String Year, String Month){
         diaryID = ID;
-        diaryDate = Date;
-        String URL="http://10.0.2.2:821/diary/get/" + diaryID + "/" + diaryDate;
+        diaryYear = Year;
+        diaryMonth = Month;
+        String URL="http://10.0.2.2:821/diary/get/" + diaryID + "/" + diaryYear + "/" + diaryMonth;
         return URL;
     }
 
+    //서버 url 설정
+    //final static  private String URL="http://10.0.2.2:821/diary/" + diaryID + "/" + diaryDate;
     private Map<String,String> map;
 
-    public GetDiaryRequest(String diaryID, String URL, Response.Listener<String>listener){
+    public GetDatesRequest(String diaryID, String URL, Response.Listener<String>listener){
 
         super(Request.Method.GET,URL,listener,null);
 

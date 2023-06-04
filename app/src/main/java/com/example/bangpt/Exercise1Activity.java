@@ -1,156 +1,151 @@
 package com.example.bangpt;
 
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.hardware.Camera;
-import android.media.CamcorderProfile;
-import android.media.MediaRecorder;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.normal.TedPermission;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.bangpt.Request.VolleyMultipartRequest2;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Exercise1Activity extends AppCompatActivity implements SurfaceHolder.Callback {
+public class Exercise1Activity extends AppCompatActivity {
+    private static final int REQUEST_VIDEO_CAPTURE = 1;
+    private static final String UPLOAD_URL = "http://172.20.10.8:8000/upload";
 
-    private Button btn_record;
-    private SurfaceView surfaceView;
-    private Camera camera;
-    private MediaRecorder mediaRecorder;
-    private SurfaceHolder surfaceHolder;
-    private boolean recording = false;
-
-    private String TAG = "Exercise1Activity.java";
+    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise1);
 
-        TedPermission.create() //권한을 얻기 위한 코드이다.
-                .setPermissionListener(permission)
-                .setRationaleMessage("녹화를 위하여 권한을 허용해주세요.")
-                .setDeniedMessage("권한이 거부되었습니다. 설정 > 권한에서 허용할 수 있습니다.")
-                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO)
-                .check();
+        requestQueue = Volley.newRequestQueue(this);
 
-        btn_record = (Button)findViewById(R.id.btn_record);
-        btn_record.setOnClickListener(v -> {
-            if (recording) { //녹화 중일 때 버튼을 누르면 녹화가 종료하도록 한다.
-                mediaRecorder.stop();
-                mediaRecorder.release();
-                camera.lock();
-                recording = false;
-                btn_record.setText("녹화 시작");
-            } else { //녹화 중이 아닐 때 버튼을 누르면 녹화가 시작하게 한다.
-                runOnUiThread(new Runnable() { //녹화를 하는 것은 백그라운드로 하는 것이 좋다.
-                    @Override
-                    public void run() {
-                        Toast.makeText(Exercise1Activity.this, "녹화가 시작되었습니다.", Toast.LENGTH_SHORT).show();
-                        try {
-                            mediaRecorder = new MediaRecorder();
-                            camera.unlock();
-                            mediaRecorder.setCamera(camera);
-                            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-                            mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-                            mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
-                            mediaRecorder.setOrientationHint(270);
-                            mediaRecorder.setOutputFile("/storage/emulated/0/Download/test.mp4");
-                            mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
-                            mediaRecorder.prepare();
-                            mediaRecorder.start();
-                            recording = true;
-                            btn_record.setText("녹화 종료");
-                        } catch (IOException e) {
-                            Log.e(TAG, "Error in 79" + e.getMessage());
-                            e.printStackTrace();
-                            mediaRecorder.release();
-                        }
-                    }
-
-                });
+        Button uploadButton = findViewById(R.id.upload_button);
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakeVideoIntent();
             }
         });
     }
 
-    PermissionListener permission = new PermissionListener() {
-        @Override
-        public void onPermissionGranted() { //권한을 허용받았을 때 camera와 surfaceView에 대한 설정을 해준다.
+    private void dispatchTakeVideoIntent() {
+        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
+        }
+    }
 
-            int numberOfCameras = Camera.getNumberOfCameras();
-            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-            for (int i = 0; i < numberOfCameras; i++) {
-                Camera.getCameraInfo(i, cameraInfo);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == Activity.RESULT_OK) {
+            Uri videoUri = data.getData();
+            try {
+                uploadVideo(videoUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                    camera = Camera.open(i); // 전면 카메라를 엽니다
-                    break;
+    private void uploadVideo(Uri videoUri) throws IOException {
+        String filePath = getRealPathFromUri(videoUri); // 동영상 파일의 실제 경로를 얻어옴
+
+        File videoFile = new File(filePath);
+
+        // 파일 파트 생성
+        VolleyMultipartRequest2 volleyMultipartRequest2 = new VolleyMultipartRequest2(
+                Request.Method.POST,
+                UPLOAD_URL,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        Log.d("Upload", "Video uploaded successfully");
+
+                        // 업로드 완료 후 UploadStatusActivity로 이동합니다.
+                        Intent intent = new Intent(Exercise1Activity.this, UploadStatusActivity.class);
+                        intent.putExtra("status_message", "동영상 업로드 완료");
+                        startActivity(intent);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Upload", "Video upload failed: " + error.toString());
+                    }
                 }
+        ) {
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                try {
+                    params.put("video", new DataPart(videoFile.getName(), getFileDataFromUri(videoUri)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return params;
             }
-            if (camera == null) {
-                camera = Camera.open(); // 전면 카메라를 사용할 수 없을 경우 기본 카메라(후면 카메라)를 엽니다
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                // 필요한 경우 추가적인 파라미터를 전송할 수 있음
+                return params;
             }
-            //camera = Camera.open();
-            camera.setDisplayOrientation(90);
-            surfaceView = (SurfaceView)findViewById(R.id.surfaceView);
-            surfaceHolder = surfaceView.getHolder();
-            surfaceHolder.addCallback(Exercise1Activity.this);
-            surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-            Toast.makeText(Exercise1Activity.this, "권한 허가", Toast.LENGTH_SHORT).show();
-        }
+        };
 
-
-        @Override
-        public void onPermissionDenied(List<String> deniedPermissions) { //권한이 거부됐을 때 이벤트를 설정할 수 있다.
-            Toast.makeText(Exercise1Activity.this, "권한 거부", Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    @Override
-    public void surfaceCreated(@NonNull SurfaceHolder holder) {
+        // 요청 큐에 추가
+        requestQueue.add(volleyMultipartRequest2);
     }
 
-    private void refreshCamera(Camera camera) {
-        if (surfaceHolder.getSurface() == null) {
-            return;
+    private String getRealPathFromUri(Uri uri) {
+        String[] projection = {MediaStore.Video.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+            String filePath = cursor.getString(columnIndex);
+            cursor.close();
+            return filePath;
         }
-        try {
-            camera.stopPreview();
-        } catch (Exception e) {
-            e.printStackTrace();
+        return null;
+    }
+
+    private byte[] getFileDataFromUri(Uri uri) throws IOException {
+        InputStream inputStream = getContentResolver().openInputStream(uri);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
         }
-        setCamera(camera);
-    }
-
-    private void setCamera(Camera cam) {
-        camera = cam;
-    }
-
-    @Override
-    public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-        refreshCamera(camera);
-    }
-
-    @Override
-    public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-
+        inputStream.close();
+        return outputStream.toByteArray();
     }
 }

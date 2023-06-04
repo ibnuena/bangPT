@@ -12,19 +12,21 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
-import com.example.bangpt.Request.GetDiaryRequest;
+import com.example.bangpt.Request.GetDatesRequest;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.prolificinteractive.materialcalendarview.spans.DotSpan;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +37,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +48,8 @@ import java.util.Date;
  */
 public class CalendarFragment extends Fragment {
     private MaterialCalendarView mCalendarView;
+    private ArrayList<String> itemList; //운동한 날짜들 저장
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,7 +60,6 @@ public class CalendarFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ArrayList<String> itemList;
 
     public CalendarFragment() {
         // Required empty public constructor
@@ -92,6 +97,7 @@ public class CalendarFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        itemList = new ArrayList<>();
 
         // MaterialCalendarView 초기화
         mCalendarView = view.findViewById(R.id.calView);
@@ -114,49 +120,77 @@ public class CalendarFragment extends Fragment {
                 Bundle bundle = getArguments();
                 String userID = bundle.getString("userID");
 
-                /*
-                itemList = new ArrayList<>();
-
-                //itemList에 DB에 저장된 값 저장하기
-                Response.Listener<String> responseListener=new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            String jsonString = jsonArray.toString();
-
-                            for(int i=0 ; i < jsonArray.length() ; i++){
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                                String memo = jsonObject.optString("diary_memo");
-                                itemList.add(memo);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-
-                String Date = String.format("%04d", year) + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
-                String URL = GetDiaryRequest.GetURL(userID, Date);
-                GetDiaryRequest getDiaryRequest=new GetDiaryRequest(userID, URL,responseListener);
-                Context context = getContext();
-                RequestQueue queue= Volley.newRequestQueue(context);
-                queue.add(getDiaryRequest); */
-
                 // 클릭한 날짜를 액티비티로 전달합니다.
                 Intent intent = new Intent(getActivity(), CalendarMemoActivity.class);
                 intent.putExtra("year", year);
                 intent.putExtra("month", month);
                 intent.putExtra("day", day);
                 intent.putExtra("userID", userID);
-                //intent.putStringArrayListExtra("itemList", itemList);
                 startActivity(intent);
+            }
+        });
+        mCalendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
+            @Override
+            public void onMonthChanged(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date) {
+                int year = date.getYear();
+                int month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더해줍니다.
+                Bundle bundle = getArguments();
+                String userID = bundle.getString("userID");
+                Log.d("CalendarFragment", "itemList: " + "");
+                itemList.clear();
+
+                Response.Listener<String> responseListener=new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+                            JSONArray jsonArray = new JSONArray(response);
+                            //String jsonString = jsonArray.toString();
+
+                            for(int i=0 ; i < jsonArray.length() ; i++){
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                String date = jsonObject.optString("diary_date");
+                                itemList.add(date);
+
+                            }
+
+                            // itemList에 저장된 날짜들을 이벤트로 표시하는 EventDecorator 생성
+                            List<CalendarDay> eventDates = new ArrayList<>();
+
+                            for (int i = 0; i < itemList.size(); i++) {
+
+                                String item = itemList.get(i);
+                                String[] dateParts = item.split("-");
+                                int itemYear = Integer.parseInt(dateParts[0]);
+
+                                int itemMonth = Integer.parseInt(dateParts[1]);
+                                int itemDay = Integer.parseInt(dateParts[2]);
+                                eventDates.add(CalendarDay.from(itemYear, itemMonth-1, itemDay));
+                            }
+
+                            EventDecorator eventDecorator = new EventDecorator(Color.RED, eventDates);
+                            mCalendarView.addDecorator(eventDecorator);
+                            //
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+
+                String URL = GetDatesRequest.GetURL(userID, Integer.toString(year), Integer.toString(month));
+                GetDatesRequest getDatesRequest=new GetDatesRequest(userID, URL,responseListener);
+                Context context = getContext();
+                RequestQueue queue= Volley.newRequestQueue(context);
+                queue.add(getDatesRequest);
+
             }
         });
 
         return view;
     }
+
     public class SundayDecorator implements DayViewDecorator {
 
         private final Calendar calendar = Calendar.getInstance();
@@ -218,6 +252,25 @@ public class CalendarFragment extends Fragment {
 
         public void setDate(Date date) {
             this.date = CalendarDay.from(date);
+        }
+    }
+    public class EventDecorator implements DayViewDecorator {
+        private final int color;
+        private final List<CalendarDay> eventDates;
+
+        public EventDecorator(int color, Collection<CalendarDay> eventDates) {
+            this.color = color;
+            this.eventDates = new ArrayList<>(eventDates);
+        }
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            return eventDates.contains(day);
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan(new DotSpan(5, color));
         }
     }
 }

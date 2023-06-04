@@ -34,7 +34,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
+    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'//
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
@@ -60,4 +60,3 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
 }
-
