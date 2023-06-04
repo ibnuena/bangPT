@@ -17,6 +17,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+//얘가 실질적 동영상 분석 후 바로 결과 보여주는 activity
 public class ExerciseResult2Activity extends AppCompatActivity {
 
     private TextView tv_timestamp, tv_bestrep, tv_worsttrep, tv_total_reps, tv_reps1, tv_reps2, tv_reps3, tv_reps4, tv_reps5, tv_feedback;
@@ -29,7 +30,7 @@ public class ExerciseResult2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_exercise_result2);
 
         userid = getIntent().getStringExtra("userID");
-        num = getIntent().getIntExtra("num", 1);
+        num = getIntent().getIntExtra("num", 0);
 
         tv_timestamp = findViewById(R.id.tv_timestamp);
         tv_bestrep = findViewById(R.id.tv_bestrep);
@@ -55,7 +56,6 @@ public class ExerciseResult2Activity extends AppCompatActivity {
         JSONObject params = new JSONObject();
         try {
             params.put("user_id", userid);
-            params.put("num", num);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -66,7 +66,9 @@ public class ExerciseResult2Activity extends AppCompatActivity {
                         try {
                             String timestamp = response.getString("timestamp");
                             int best_rep = response.getInt("best_reps");
+                            int fbest_rep = best_rep + 1;
                             int worst_rep = response.getInt("worst_reps");
+                            int fworst_rep = worst_rep + 1;
                             String feedback = response.getString("feedback");
 
                             double score_100 = response.getDouble("score_100_total");
@@ -94,8 +96,8 @@ public class ExerciseResult2Activity extends AppCompatActivity {
                             tv_reps5.setText(formattedReps5);
 
                             tv_timestamp.setText(timestamp);
-                            tv_bestrep.setText(String.valueOf(best_rep));
-                            tv_worsttrep.setText(String.valueOf(worst_rep));
+                            tv_bestrep.setText(String.valueOf(fbest_rep));
+                            tv_worsttrep.setText(String.valueOf(fworst_rep));
                             tv_feedback.setText(feedback);
                         } catch (JSONException e) {
                             e.printStackTrace();

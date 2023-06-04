@@ -31,6 +31,9 @@
             android:name=".MyInfoActivity"
             android:exported="false" />
         <activity
+            android:name=".ExerciseResultList"
+            android:exported="false" />
+        <activity
             android:name=".Commu.FreeWriteActivity"
             android:exported="false" />
         <activity

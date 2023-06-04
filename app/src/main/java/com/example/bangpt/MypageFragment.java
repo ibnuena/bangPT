@@ -124,7 +124,8 @@ public class MypageFragment extends Fragment {
         btn_result.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ExerciseResult2Activity.class);
+                Intent intent = new Intent(getActivity(), ExerciseResultList.class);
+                intent.putExtra("userID", userID);
                 startActivity(intent);
             }
         });
