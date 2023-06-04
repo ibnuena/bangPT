@@ -18,7 +18,7 @@ import java.util.Map;
 public class VolleyMultipartRequest extends Request<NetworkResponse> {
     private final String boundary = "volleyMultipartBoundary";
     private final String lineEnd = "\r\n";
-    private final String twoHyphens = "—";
+    private final String twoHyphens = "--";
 
     private Response.Listener<NetworkResponse> mListener;
     private Response.ErrorListener mErrorListener;
@@ -141,5 +141,4 @@ public class VolleyMultipartRequest extends Request<NetworkResponse> {
         }
     }
 }
-
 
